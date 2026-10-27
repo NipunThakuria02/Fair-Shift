@@ -218,7 +218,8 @@ async function main() {
   console.info(JSON.stringify({ event: "synthetic_demo_seeded", ...result }));
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href)
-  main().catch(() => {
+  main().catch((err) => {
+    console.error("SEED_ERROR:", err);
     console.error(
       "Seed failed. Ensure a fresh database, new seed identities, valid project access, and a secure SEED_PASSWORD of at least 12 characters. No existing data was overwritten.",
     );

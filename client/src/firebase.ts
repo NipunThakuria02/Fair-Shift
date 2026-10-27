@@ -31,7 +31,16 @@ export async function api<T>(
     },
     signal: AbortSignal.timeout(20_000),
   });
-  const json = await response.json();
+  const text = await response.text();
+  let json: any = null;
+  try {
+    json = JSON.parse(text);
+  } catch {
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status} ${response.statusText || "error"}. / சேவையக பிழை (${response.status}).`);
+    }
+    throw new Error("Invalid response format from server. / தவறான பதில் வடிவம்.");
+  }
   if (!response.ok) {
     const tamil: Record<string, string> = {
       UNAUTHENTICATED: "மீண்டும் உள்நுழையவும்.",
@@ -46,7 +55,7 @@ export async function api<T>(
       RATE_LIMITED: "சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.",
     };
     throw new Error(
-      `${json.error?.message || "Request failed."} / ${tamil[json.error?.code] || "கோரிக்கை தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்."}`,
+      `${json?.error?.message || "Request failed."} / ${tamil[json?.error?.code] || "கோரிக்கை தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்."}`,
     );
   }
   return json as T;
