@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "concurrently -k \"tsx watch --env-file-if-exists=.env server/src/index.ts\" \"vite --host 0.0.0.0\"",
-    "build": "tsc -p tsconfig.server.json && vite build",
+    "build": "tsc -p tsconfig.server.json && vite build && esbuild server/src/vercel.ts --bundle --platform=node --format=esm --packages=external --outfile=api/index.js",
     "start": "node --env-file-if-exists=.env dist/server/src/index.js",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.server.json --noEmit",
     "test": "vitest run",
