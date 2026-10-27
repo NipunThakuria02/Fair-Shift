@@ -78,7 +78,7 @@ FairShift requires Firebase Authentication and Cloud Firestore.
 
 ### Step 1: Create a Project
 1. Go to the Firebase Console: https://console.firebase.google.com/
-2. Click Add Project and create a project (for example, `fair-shift-f3953`).
+2. Click Add Project and create a project .
 
 ### Step 2: Enable Authentication
 1. Navigate to Build > Authentication.
@@ -95,7 +95,7 @@ FairShift requires Firebase Authentication and Cloud Firestore.
 ### Step 4: Register Web App
 1. Go to Project Settings (gear icon in the top left).
 2. Under Your apps, click the Web icon (`</>`).
-3. Set the nickname (for example, `FairShift Web`) and register.
+3. Set the nickname  and register.
 4. Note your public web keys:
    - `apiKey`
    - `authDomain`
