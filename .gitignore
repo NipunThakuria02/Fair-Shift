@@ -1,0 +1,13 @@
+node_modules/
+dist/
+client/dist/
+.env*
+!.env.example
+.firebase/
+*-debug.log
+coverage/
+*.tsbuildinfo
+service-account*.json
+test-results/
+playwright-report/
+.local/
