@@ -4,10 +4,21 @@ import { getFirestore } from "firebase-admin/firestore";
 function getCredential() {
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     try {
-      const parsed = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+      let raw = process.env.FIREBASE_SERVICE_ACCOUNT.trim();
+      if (!raw.startsWith("{")) {
+        try {
+          raw = Buffer.from(raw, "base64").toString("utf8");
+        } catch {
+          // keep raw
+        }
+      }
+      const parsed = JSON.parse(raw);
+      if (parsed.private_key && typeof parsed.private_key === "string") {
+        parsed.private_key = parsed.private_key.replace(/\\n/g, "\n");
+      }
       return cert(parsed);
-    } catch {
-      // fallback
+    } catch (err) {
+      console.error("Failed to initialize Firebase credentials from FIREBASE_SERVICE_ACCOUNT:", err);
     }
   }
   return applicationDefault();
